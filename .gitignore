@@ -1,0 +1,8 @@
+*.iml
+.idea/
+target/
+*.swp
+*.swo
+.cache
+.history
+project
