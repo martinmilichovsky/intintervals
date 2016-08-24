@@ -1,4 +1,4 @@
-# intintervals (Intersections of Intervals)
+# intintervals (Intersections of Intervals) [![Build Status](https://travis-ci.org/martinmilichovsky/intintervals.svg?branch=master)](https://travis-ci.org/martinmilichovsky/intintervals)
 
 intintervals is library for calculating set intersections cardinality on a timeline. User provides several timelines and then can query for overlaps.
 
