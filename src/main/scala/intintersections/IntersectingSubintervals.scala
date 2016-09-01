@@ -3,7 +3,9 @@ package intintersections
 
 case class IntersectingSubintervals[KEY, BOUND](subintervals: Seq[(Set[KEY], Interval[BOUND])])(implicit ord: Ordering[BOUND]) {
 
-  def filter(query: Query[KEY]) = copy(subintervals = subintervals.filter(query matches _._1))
+  def filter(key: KEY): IntersectingSubintervals[KEY, BOUND] = filter(Query.key(key))
+  def filter(query: Query[KEY]): IntersectingSubintervals[KEY, BOUND] =
+    copy(subintervals = subintervals.filter(query matches _._1))
 
   def coalesce(preserveKeys: Set[KEY]) = copy(subintervals =
     subintervals
@@ -83,7 +85,12 @@ object Query {
 
   def key[KEY](key: KEY): Query[KEY] = Query[KEY](mustBe = Set(key))
 
-  implicit def key2query[KEY](k: KEY): Query[KEY] = key(k)
+  implicit class Any2Query[KEY](k: KEY) {
+    def and(q: KEY) = Query.key(k) and q
+    def andNot(q: KEY) = Query.key(k) andNot  q
+    def or(q: Query[KEY]) = Query.key(k) or q
+    def or(q: KEY) = Query.key(k) or Query.key(q)
+  }
 
 }
 

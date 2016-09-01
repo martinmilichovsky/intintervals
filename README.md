@@ -29,13 +29,16 @@ scala> val input = Map(
 scala> val intint = IntersectingSubintervals.of(input)
 intint: intintersections.IntersectingSubintervals[String,Int] = IntersectingSubintervals(List((Set(A, B, C),Interval(0,1)), (Set(B, C),Interval(1,2)), (Set(C, A),Interval(2,3)), (Set(),Interval(3,4)), (Set(B),Interval(4,6)), (Set(C),Interval(6,9))))
 
-scala> intint.filter(Query.key("B") and "C")
+scala> import intintersections.Query._ // implicits for Query construction
+import intintersections.Query._
+
+scala> intint.filter("B" and "C")
 res1: intintersections.IntersectingSubintervals[String,Int] = IntersectingSubintervals(List((Set(A, B, C),Interval(0,1)), (Set(B, C),Interval(1,2))))
 
-scala> intint.filter(Query.key("B") and "C" andNot "A")
+scala> intint.filter("B" and "C" andNot "A")
 res2: intintersections.IntersectingSubintervals[String,Int] = IntersectingSubintervals(List((Set(B, C),Interval(1,2))))
 
-scala> intint.filter(Query.key("B") and "C" andNot "A").duration
+scala> intint.filter("B" and "C" andNot "A").duration
 res3: Int = 1
 ```
 

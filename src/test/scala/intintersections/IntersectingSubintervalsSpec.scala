@@ -6,6 +6,8 @@ import scala.util.Random
 
 class IntersectingSubintervalsSpec extends FunSuite {
 
+  import Query._
+
   test("query matching") {
     assert(Query.key("A") matches Set("A", "B"))
     assert(!(Query.key("C") matches Set("A", "B")))
@@ -89,7 +91,9 @@ class IntersectingSubintervalsSpec extends FunSuite {
     )
 
     val subints = IntersectingSubintervals.of(input)
-    val filtered = subints.filter(Query.key("A") andNot "B")
+
+    //import Query.Any2Query
+    val filtered = subints.filter("A" andNot "B")
     val coalesced = filtered.coalesce(Set("A"))
 
     assert(filtered

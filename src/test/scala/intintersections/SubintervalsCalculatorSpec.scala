@@ -6,6 +6,7 @@ import scala.util.Random
 
 class SubintervalsCalculatorSpec extends FunSuite {
 
+  import Query._
   test("union overlapping") {
     val input = Seq(
       Interval(0, 3),
@@ -76,13 +77,13 @@ class SubintervalsCalculatorSpec extends FunSuite {
       *
       */
 
-    assert(output.filter(Query.key("A")).subintervals.map(_._2)
+    assert(output.filter("A").subintervals.map(_._2)
       === input("A"))
 
-    assert(output.filter(Query.key("A").andNot("B")).subintervals
+    assert(output.filter("A" andNot "B").subintervals
       === Seq((Set("A"), Interval(3, 4))))
 
-    assert(output.filter(Query.key("A").or(Query.key("B"))).subintervals
+    assert(output.filter("A" or "B").subintervals
       === output.subintervals.filter(_._1.nonEmpty))
 
   }
