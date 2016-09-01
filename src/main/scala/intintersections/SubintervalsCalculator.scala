@@ -29,7 +29,7 @@ object SubintervalsCalculator {
                                  acc: List[(Set[KEY], Interval[BOUND])] = List.empty): List[(Set[KEY], Interval[BOUND])] = {
       (nearestEnds, nearestStarts) match {
         case (Nil, Nil) => acc
-        case (ends, start :: startXs) if ends.isEmpty || ord.compare(ends.head._1, start._1) >= 0 =>
+        case (ends, start :: startXs) if ends.isEmpty || ord.compare(ends.head._1, start._1) > 0 =>
           calculateSubintervalsRec(
             activeKeys = activeKeys + start._2,
             lastMark = start._1,
@@ -58,7 +58,7 @@ object SubintervalsCalculator {
 
   def unionOverlapping[BOUND](events: Seq[Interval[BOUND]])(implicit ord: Ordering[BOUND]): Seq[Interval[BOUND]] =
     events.sortBy(_.start).foldLeft(List.empty[Interval[BOUND]]) {
-      case (last :: xs, current) if last overlaps current => (last union current) :: xs
+      case (last :: xs, current) if last canUnion current => (last union current) :: xs
       case (xs, current) => current :: xs
     }
 

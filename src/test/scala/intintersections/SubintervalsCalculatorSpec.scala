@@ -37,7 +37,7 @@ class SubintervalsCalculatorSpec extends FunSuite {
 
     // brute-force verification that no two intervals actually overlap
     val intersecting = unioned.toList.combinations(2).filter {
-      case a :: b :: Nil => a overlaps b
+      case a :: b :: Nil => a canUnion b
       case _ => ???
     }
     assert(intersecting.isEmpty)

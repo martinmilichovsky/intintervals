@@ -8,14 +8,20 @@ class IntervalSpec extends FunSuite {
     intercept[AssertionError](Interval(2, 0))
   }
 
-  test("interval intersecting") {
-    assert((Interval(1, 2) overlaps Interval(3, 4)) === false)
-    assert((Interval(1, 2) overlaps Interval(3, 4)) === false)
+  test("interval connectivity/intersecting") {
+    assert((Interval(0, 1) overlaps Interval(1, 2)) === false)
 
-    assert(Interval(1, 5) overlaps Interval(3, 6))
-    assert(Interval(1, 5) overlaps Interval(2, 4))
-    assert(Interval(1, 5) overlaps Interval(0, 3))
-    assert(Interval(1, 5) overlaps Interval(0, 6))
+    assert((Interval(1, 2) canUnion Interval(3, 4)) === false)
+    assert((Interval(1, 2) canUnion Interval(3, 4)) === false)
+    assert((Interval(0, 1) canUnion Interval(1, 2)) === true)
+
+    assert(Interval(1, 2) canUnion Interval(1, 2))
+
+    assert(Interval(1, 5) canUnion Interval(3, 6))
+    assert(Interval(1, 5) canUnion Interval(2, 4))
+    assert(Interval(1, 5) canUnion Interval(0, 3))
+    assert(Interval(1, 5) canUnion Interval(0, 6))
+
   }
 
   test("interval intersection") {
